@@ -11,23 +11,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest
-      - name: Install dependencies
-        run: bundle install
-      - uses: swift-actions/setup-swift@v1
-        with:
-          swift-version: "5.9.2"
-      - name: Build executable for release
-        run: swift build -c release
-      - name: Compress archive
-        run: zip -r -q ${{ github.ref_name }}.zip .build/release/StringifyMacroMacros
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ${{ github.ref_name }}.zip
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: maxim-lobanov/setup-xcode@v1
+      #   with:
+      #     xcode-version: latest
+      # - name: Install dependencies
+      #   run: bundle install
+      # - uses: swift-actions/setup-swift@v1
+      #   with:
+      #     swift-version: "5.9.2"
+      # - name: Build executable for release
+      #   run: swift build -c release
+      # - name: Compress archive
+      #   run: zip -r -q ${{ github.ref_name }}.zip .build/release/StringifyMacroMacros
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: ${{ github.ref_name }}.zip
+      #     token: ${{ secrets.GITHUB_TOKEN }}
       - name: Bump podspec version
         run: bundle exec fastlane run version_bump_podspec path:"StringifyMacro.podspec" version_number:"${{ github.ref_name }}"
       - name: Commit podspec
@@ -37,10 +37,10 @@ jobs:
           git add StringifyMacro.podspec
           git diff --quiet && git diff --staged --quiet || git commit -m "[🤖 release] Bump podspec version to ${{ github.ref_name }}"
           git push origin main
-      - name: Deploy to Cocoapods
-        run: |
-          set -eo pipefail
-          pod lib lint --allow-warnings
-          pod trunk push --allow-warnings
-        env:
-          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+      # - name: Deploy to Cocoapods
+      #   run: |
+      #     set -eo pipefail
+      #     pod lib lint --allow-warnings
+      #     pod trunk push --allow-warnings
+      #   env:
+      #     COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
