@@ -17,7 +17,7 @@ jobs:
       - name: Build executable for release
         run: swift build -c release
       - name: Compress archive
-        run: zip -r -q StringifyMacroMacros${{ github.ref_name }}.zip .build/arm64-apple-macosx/release/StringifyMacroMacros
+        run: zip -r -q ${{ github.ref_name }}.zip .build/release/StringifyMacroMacros
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
