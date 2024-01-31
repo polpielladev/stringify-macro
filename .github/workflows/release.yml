@@ -34,13 +34,13 @@ jobs:
           files: ${{ github.ref_name }}.zip
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Bump podspec version
-        run: bundle exec fastlane run version_bump_podspec path:"StringifyMacro.podspec" version_number:"${{ github.ref_name }}"
+        run: bundle exec fastlane run version_bump_podspec path:"StringifyMacroBinary.podspec" version_number:"${{ github.ref_name }}"
       - name: Commit podspec
         run: |
           git config --global user.name 'Pol Piella Abadia'
           git config --global user.email 'hi@polpiella.dev'
           git switch main
-          git add StringifyMacro.podspec
+          git add StringifyMacroBinary.podspec
           git diff --quiet && git diff --staged --quiet || git commit -m "[🤖 release] Bump podspec version to ${{ github.ref_name }}"
           git push -u origin main
       - name: Deploy to Cocoapods
