@@ -10,16 +10,15 @@ permissions:
 
 jobs:
   release:
-    runs-on: macos-latest
+    runs-on: macos-14-arm64
 
     steps:
       - uses: actions/checkout@v4
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest
-      - uses: swift-actions/setup-swift@v1
-        with:
-          swift-version: "5.9.2"
+      - name: Install dependencies
+        run: bundle install
       - name: Build executable for release
         run: swift build -c release
       - name: Compress archive
@@ -29,9 +28,6 @@ jobs:
         with:
           files: ${{ github.ref_name }}.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
       - name: Bump podspec version
         run: bundle exec fastlane run version_bump_podspec path:"StringifyMacro.podspec" version_number:"${{ github.ref_name }}"
       - name: Commit podspec
