@@ -37,6 +37,7 @@ jobs:
         run: |
           git config --global user.name 'Pol Piella Abadia'
           git config --global user.email 'hi@polpiella.dev'
+          git checkout --track origin/main
           git add StringifyMacro.podspec
           git diff --quiet && git diff --staged --quiet || git commit -m "[🤖 release] Bump podspec version to ${{ github.ref_name }}"
           git push -u origin main
