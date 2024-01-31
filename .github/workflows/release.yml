@@ -19,6 +19,9 @@ jobs:
           xcode-version: latest
       - name: Install dependencies
         run: bundle install
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: "5.9.2"
       - name: Build executable for release
         run: swift build -c release
       - name: Compress archive
