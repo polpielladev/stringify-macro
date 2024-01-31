@@ -24,3 +24,7 @@ jobs:
         run: bundle install
       - name: Bump podspec version
         run: bundle exec fastlane run version_bump_podspec path:"StringifyMacro.podspec" version_number:"${{ github.ref_name }}"
+      - name: Commit podspec
+        run: git commit -m "[🤖 release] Bump podspec version to ${{ github.ref_name }}" StringifyMacro.podspec
+      - name: Push podspec
+        run: git push
