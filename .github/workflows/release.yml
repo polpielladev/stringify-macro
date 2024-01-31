@@ -26,8 +26,9 @@ jobs:
         with:
           files: ${{ github.ref_name }}.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install bundle
-        run: bundle install
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: Bump podspec version
         run: bundle exec fastlane run version_bump_podspec path:"StringifyMacro.podspec" version_number:"${{ github.ref_name }}"
       - name: Commit podspec
