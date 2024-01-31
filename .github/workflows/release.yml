@@ -20,3 +20,7 @@ jobs:
         with:
           files: ${{ github.ref_name }}.tar.gz
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install bundle
+        run: bundle install
+      - name: Bump podspec version
+        run: bundle exec fastlane run version_bump_podspec path:"StringifyMacro.podspec" version_number:"${{ github.ref_name }}"
