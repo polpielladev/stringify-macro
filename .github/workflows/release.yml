@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  release:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build executable for release
+        run: swift build -c release
+      - name: Compress archive
+        run: zip -r -q StringifyMacroMacros${{ github.ref_name }}.zip .build/arm64-apple-macosx/release/StringifyMacroMacros
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.ref_name }}.tar.gz
+          token: ${{ secrets.GITHUB_TOKEN }}
